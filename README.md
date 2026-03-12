@@ -39,7 +39,7 @@ The project uses PostgreSQL.
 Windows example:
 
 ```
-"C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres
+& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres
 ```
 
 Create the database and user:
