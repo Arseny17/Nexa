@@ -1,39 +1,25 @@
-# Nexa
+<h1 align="center">Nexa</h1>
 
 Nexa is a backend for a PC hardware online store built with Django and PostgreSQL.
 
-
-
 # Requirements
-
 * Python 3.14+
 * PostgreSQL
 
-
-
 # Setup
-
-## 1. Clone the repository
-
-```
-git clone https://github.com/<your-username>/Nexa.git
-cd Nexa
-```
-
-
-## 2. Install dependencies
-
+## Install dependencies
 
 ```
-pip install django psycopg[binary] python-dotenv
+pip install -r requirements.txt
+```
+or (if you use `uv`)
+```
+uv sync
 ```
 
 ---
 
-# Database Setup
-
-The project uses PostgreSQL.
-
+# PostgreSQL Database Setup
 ## 1. Create the database
 
 Windows example:
@@ -42,28 +28,18 @@ Windows example:
 & "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres
 ```
 
-Create the database and user:
+Create the database and user; Connect to the database and grant schema permissions:
 
 ```
 CREATE DATABASE nexa;
-
 CREATE USER nexa_user WITH PASSWORD 'password';
-
 ALTER ROLE nexa_user SET client_encoding TO 'utf8';
 ALTER ROLE nexa_user SET default_transaction_isolation TO 'read committed';
 ALTER ROLE nexa_user SET timezone TO 'UTC';
-
 GRANT ALL PRIVILEGES ON DATABASE nexa TO nexa_user;
-```
-
-Connect to the database and grant schema permissions:
-
-```
 \c nexa
-
 GRANT ALL ON SCHEMA public TO nexa_user;
 ALTER SCHEMA public OWNER TO nexa_user;
-
 \q
 ```
 
@@ -75,10 +51,10 @@ Create a `.env` file in the project root:
 
 ```
 DJANGO_SECRET_KEY=your_secret_key
-POSTGRES_DB_KEY=your_password
+POSTGRES_DB_KEY=your_database_key
 ```
 
-`POSTGRES_DB_KEY` must match the password used when creating `nexa_user`.
+- `POSTGRES_DB_KEY` must match the password used when creating `nexa_user`.
 
 ---
 
