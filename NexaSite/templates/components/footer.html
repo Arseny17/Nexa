@@ -1,3 +1,4 @@
+{% load static %}
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-left">
@@ -9,9 +10,15 @@
             <p>Адрес: г. Москва, ул. Примерная, 10</p>
         </div>
         <div class="footer-right">
-            <a href="#" class="social-link">VK</a>
-            <a href="#" class="social-link">Telegram</a>
-            <a href="#" class="social-link">Instagram</a>
+            <a href="#" class="social-link">
+                <img src="{% static 'images/social_icons/github_icon.png' %}" alt="Github">
+            </a>
+            <a href="#" class="social-link">
+                <img src="{% static 'images/social_icons/telegram_icon.png' %}" alt="Telegram">
+            </a>
+            <a href="#" class="social-link">
+                <img src="{% static 'images/social_icons/vk_icon.png' %}" alt="VK">
+            </a>
         </div>
     </div>
 </footer>
