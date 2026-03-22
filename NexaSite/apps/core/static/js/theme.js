@@ -1,29 +1,32 @@
-const THEME_KEY = 'nexa-theme';
-const LIGHT = 'light-theme';
-const DARK = 'dark-theme';
+const THEME_KEY = "theme";
 
-const body = document.body;
+const icon = document.getElementById("themeIcon");
 
-function applyTheme(theme) {
-    if (theme === DARK) {
-        body.classList.add(DARK);
-        body.classList.remove(LIGHT);
+function updateIcon(theme) {
+    if (!icon) return;
+
+    if (theme === "dark") {
+        icon.src = "/static/images/dark_theme_icon.png";
     } else {
-        body.classList.add(LIGHT);
-        body.classList.remove(DARK);
+        icon.src = "/static/images/white_theme_icon.png";
     }
 }
 
-let currentTheme = localStorage.getItem(THEME_KEY) || LIGHT;
-applyTheme(currentTheme);
-
-// Get the theme toggle button
-const themeToggle = document.getElementById('theme-toggle');
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        // Change the theme and save it to localStorage
-        currentTheme = currentTheme === LIGHT ? DARK : LIGHT;
-        applyTheme(currentTheme);
-        localStorage.setItem(THEME_KEY, currentTheme);
-    });
+function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem(THEME_KEY, theme);
 }
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute("data-theme");
+    const newTheme = current === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+}
+
+(function () {
+    const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    updateIcon(savedTheme);
+})();
+
+document.getElementById("themeToggle")?.addEventListener("click", toggleTheme);
