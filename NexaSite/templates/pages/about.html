@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nexa — О компании{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <section class="about-hero">
+        <h1 class="title">О компании Nexa</h1>
+        <p class="subtitle">
+            Мы создаем удобную платформу для выбора и покупки комплектующих для ПК.
+            Простота, надежность и актуальные технологии — основа Nexa.
+        </p>
+    </section>
+
+    <section class="about-section">
+        <h3>Наша миссия</h3>
+        <div class="about-card">
+            <p>
+                Наша цель — сделать выбор компьютерных комплектующих максимально простым и понятным.
+                Мы помогаем как новичкам, так и опытным пользователям собрать идеальную конфигурацию.
+            </p>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <h3>Что мы предлагаем</h3>
+        <div class="about-grid">
+            <div class="about-card">
+                <h4>Каталог товаров</h4>
+                <p>Актуальные комплектующие с удобной фильтрацией и структурой.</p>
+            </div>
+            <div class="about-card">
+                <h4>Подбор конфигурации</h4>
+                <p>Помощь в выборе совместимых компонентов для сборки ПК.</p>
+            </div>
+            <div class="about-card">
+                <h4>Актуальные цены</h4>
+                <p>Следим за рынком и показываем актуальную стоимость.</p>
+            </div>
+            <div class="about-card">
+                <h4>Простота интерфейса</h4>
+                <p>Минималистичный и понятный UI без лишнего перегруза.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <h3>Контакты</h3>
+        <div class="about-card contact-card">
+            <p><strong>Телефон:</strong> +7 (999) 123-45-67</p>
+            <p><strong>Email:</strong> info@nexa.com</p>
+            <p><strong>Адрес:</strong> г. Москва, ул. Примерная, 10</p>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

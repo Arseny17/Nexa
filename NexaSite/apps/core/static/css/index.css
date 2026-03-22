@@ -62,10 +62,10 @@ main {
 }
 
 .card:hover {
-    background: rgba(37, 99, 235, 0.08);
-    border-color: rgba(37, 99, 235, 0.4);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+    background: var(--card-hover-bg);
+    border-color: rgba(37, 99, 235, 0.5);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
 }
 
 .card img {

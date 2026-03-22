@@ -41,6 +41,7 @@
     text-decoration: none;
     color: var(--header-link);
     font-weight: 500;
+    white-space: nowrap;
 }
 
 .nav-list a.active {
