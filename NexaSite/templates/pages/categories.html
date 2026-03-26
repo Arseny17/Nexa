@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Категории — Nexa{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <section class="section">
+        <h1 class="title">Категории</h1>
+
+        {% if categories %}
+        <div class="categories-grid">
+            {% for category in categories %}
+            <a href="/catalog/{{ category.slug }}/" class="category-card">
+
+                <p>{{ category.name }}</p>
+
+                <img src="{% if category.image %}{{ category.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}"
+                    alt="{{ category.name }}" class="{% if not category.image %}placeholder{% endif %}"
+                    onerror="this.onerror=null; this.src='{% static 'images/placeholder.png' %}'; this.classList.add('placeholder');">
+
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">Нет доступных категорий.</p>
+        {% endif %}
+
+    </section>
+
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 class TimestampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -12,3 +13,9 @@ class SlugMixin(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            if hasattr(self, "name"):
+                self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
