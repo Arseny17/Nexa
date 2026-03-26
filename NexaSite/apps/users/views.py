@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -21,7 +20,6 @@ def login_view(request):
             return redirect("login")
 
     return render(request, "pages/login.html")
-
 
 def register_view(request):
     if request.method == "POST":
@@ -69,7 +67,6 @@ def register_view(request):
         return redirect("/")
 
     return render(request, "pages/register.html")
-
 
 def logout_view(request):
     logout(request)

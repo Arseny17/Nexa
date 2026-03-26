@@ -4,6 +4,12 @@ from apps.core.mixins import TimestampMixin, SlugMixin
 class Category(TimestampMixin, SlugMixin):
     name = models.CharField(max_length=255)
 
+    image = models.ImageField(
+        upload_to="categories/",
+        null=True,
+        blank=True
+    )
+
     parent = models.ForeignKey(
         "self",
         on_delete=models.CASCADE,

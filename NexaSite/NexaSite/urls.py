@@ -16,16 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.core.views import index, about
+from apps.core.views import index, about, categories
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('categories', index, name='categories'),
-    path('brands', index, name='brands'),
-    path('cart', index, name='cart'),
-    path('account', index, name='account'),
+    path('categories/', categories, name='categories'),
+    path("catalog/", include("apps.catalog.urls")),
+    # path('brands', index, name='brands'),
+    # path('cart', index, name='cart'),
+    # path('account', index, name='account'),
     path('about', about, name='about'),
     
     path('', include('apps.users.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
