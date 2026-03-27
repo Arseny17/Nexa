@@ -18,7 +18,7 @@
 }
 
 .about-card {
-    flex: 1 1 250px;
+    flex: 1 1 260px;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: var(--radius);
@@ -50,7 +50,22 @@
 }
 
 @media (max-width: 900px) {
+    .about-card {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+@media (max-width: 600px) {
+    .about-section {
+        margin-top: 40px;
+    }
+
     .about-grid {
-        flex-direction: column;
+        gap: 12px;
+    }
+
+    .about-card {
+        flex: 1 1 100%;
+        padding: 16px;
     }
 }
