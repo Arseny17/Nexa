@@ -19,6 +19,7 @@ class Category(TimestampMixin, SlugMixin):
     )
 
     class Meta:
+        ordering = ["name"]
         verbose_name = "Category"
         verbose_name_plural = "Categories"
 

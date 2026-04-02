@@ -1,16 +1,8 @@
 from django.db import models
 from django.db.models import Avg
+from django.utils.text import slugify
 from apps.core.mixins import TimestampMixin, SlugMixin
 from apps.categories.models import Category
-
-class Brand(TimestampMixin, SlugMixin):
-    name = models.CharField(max_length=255, db_index=True)
-
-    class Meta:
-        ordering = ["name"]
-
-    def __str__(self):
-        return self.name
 
 class Product(TimestampMixin, SlugMixin):
     name = models.CharField(max_length=255, db_index=True)
@@ -27,14 +19,6 @@ class Product(TimestampMixin, SlugMixin):
         related_name="products"
     )
 
-    brand = models.ForeignKey(
-        Brand,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="products"
-    )
-
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -42,11 +26,25 @@ class Product(TimestampMixin, SlugMixin):
 
     def __str__(self):
         return self.name
-    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
+
     @property
     def average_rating(self):
         return self.reviews.aggregate(avg=Avg("rating"))["avg"]
-    
+
     @property
     def reviews_count(self):
         return self.reviews.count()
@@ -76,6 +74,11 @@ class Attribute(TimestampMixin, SlugMixin):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 class ProductAttribute(TimestampMixin):
     product = models.ForeignKey(

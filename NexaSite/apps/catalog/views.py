@@ -1,16 +1,30 @@
 from django.shortcuts import render, get_object_or_404
 from apps.categories.models import Category
-from .models import Product
+from apps.catalog.models import Product
 
-def catalog_by_category(request, slug):
-    category = get_object_or_404(Category, slug=slug)
+def catalog_view(request, slug=None):
+    categories = Category.objects.all()
 
-    products = Product.objects.filter(
-        category=category,
-        is_active=True
-    ).select_related("brand")
+    if slug:
+        current_category = get_object_or_404(Category, slug=slug)
+
+        products = Product.objects.filter(
+            category=current_category,
+            is_active=True
+        ).prefetch_related("images")
+
+        for product in products:
+            product.main_image = next(
+                (img for img in product.images.all() if img.is_main),
+                product.images.first()
+            )
+
+    else:
+        current_category = None
+        products = []
 
     return render(request, "pages/catalog.html", {
-        "category": category,
-        "products": products
+        "categories": categories,
+        "products": products,
+        "current_category": current_category,
     })
