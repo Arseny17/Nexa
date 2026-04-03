@@ -28,3 +28,15 @@ def catalog_view(request, slug=None):
         "products": products,
         "current_category": current_category,
     })
+
+def product_view(request, slug):
+    product = get_object_or_404(
+        Product.objects.select_related("category").prefetch_related("images"),
+        slug=slug
+    )
+
+    context = {
+        "product": product
+    }
+
+    return render(request, "pages/product.html", context)

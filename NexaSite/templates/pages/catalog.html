@@ -61,7 +61,7 @@
 
             {% for product in products %}
             <div class="product-card-wrapper">
-                <a href="/product/{{ product.slug }}/" class="product-card-link">
+                <a href="{% url 'product' product.slug %}" class="product-card-link">
                     <div class="product-image-box">
                         <img src="{% if product.main_image %}{{ product.main_image.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}"
                             alt="{{ product.name }}"
