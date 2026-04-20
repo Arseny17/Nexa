@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.core.views import index, about, catalog
+from apps.core.views import index, about
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -25,10 +25,12 @@ urlpatterns = [
 
     path('', index, name='index'),
     path("catalog/", include("apps.catalog.urls")),
+    
+    path("", include("apps.users.urls")),
 
     path("cart/", include("apps.cart.urls")),
-    path('account', index, name='account'),
-    path('about', about, name='about'),
+    path("account", index, name='account'),
+    path("about", about, name='about'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
