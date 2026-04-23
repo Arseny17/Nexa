@@ -283,6 +283,91 @@ html[data-theme="dark"] .add-to-cart img {
     margin-top: 20px;
 }
 
+.catalog-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.catalog-section--products {
+    min-height: calc(100svh - 360px);
+}
+
+.catalog-products-layout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    justify-content: space-between;
+}
+
+.catalog-pagination {
+    margin-top: auto;
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.catalog-pagination__btn {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    user-select: none;
+    transition:
+        background-color .25s ease,
+        border-color .25s ease,
+        transform .2s ease,
+        box-shadow .25s ease,
+        opacity .25s ease,
+        color .25s ease;
+}
+
+.catalog-pagination__btn:hover {
+    background: var(--card-hover-bg);
+    border-color: rgba(37, 99, 235, 0.45);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.10);
+    color: var(--text);
+}
+
+.catalog-pagination__btn--active {
+    pointer-events: none;
+    cursor: default;
+    background: var(--card-bg);
+    border-color: rgba(37, 99, 235, 0.65);
+    color: var(--muted);
+    box-shadow: none;
+    transform: none;
+}
+
+.catalog-pagination__btn--active:hover {
+    background: var(--card-bg);
+    border-color: rgba(37, 99, 235, 0.65);
+    color: var(--muted);
+    box-shadow: none;
+    transform: none;
+}
+
+.catalog-pagination__btn--disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.45;
+    color: var(--muted);
+}
+
 @media (max-width: 900px) {
     .product-card-wrapper {
         height: 140px;
@@ -371,5 +456,22 @@ html[data-theme="dark"] .add-to-cart img {
     .category-card img.placeholder {
         width: 48px;
         height: 48px;
+    }
+
+    .catalog-section {
+        min-height: calc(100svh - 190px);
+    }
+
+    .catalog-pagination {
+        gap: 8px;
+        padding-top: 22px;
+    }
+
+    .catalog-pagination__btn {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 10px;
+        border-radius: 10px;
+        font-size: 14px;
     }
 }

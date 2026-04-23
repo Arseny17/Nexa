@@ -57,41 +57,77 @@
         <!-- ====== PRODUCTS MODE ====== -->
         {% else %}
 
-        {% if products %}
-        <div class="products-grid">
+        <div class="catalog-products-layout">
+            <div class="catalog-section catalog-section--products">
+                {% if products %}
+                <div class="products-grid">
 
-            {% for product in products %}
-            <div class="product-card-wrapper">
-                <a href="{% url 'product' product.slug %}" class="product-card-link">
-                    <div class="product-image-box">
-                        <img src="{% if product.main_image %}{{ product.main_image.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}"
-                            alt="{{ product.name }}"
-                            onerror="this.onerror=null; this.src='{% static 'images/placeholder.png' %}'">
+                    {% for product in products %}
+                    <div class="product-card-wrapper">
+                        <a href="{% url 'product' product.slug %}" class="product-card-link">
+                            <div class="product-image-box">
+                                <img src="{% if product.main_image %}{{ product.main_image.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}"
+                                    alt="{{ product.name }}"
+                                    onerror="this.onerror=null; this.src='{% static 'images/placeholder.png' %}'">
+                            </div>
+
+                            <div class="product-info">
+                                <div class="product-top">
+                                    <h3 class="product-title">{{ product.name }}</h3>
+                                    <div class="product-price">{{ product.price|floatformat:0|stringformat:"s"|intcomma }} ₽</div>
+                                </div>
+
+                                <div class="product-bottom">
+                                    <div class="product-rating">{{ product.average_rating|default:"0" }} ★</div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <form action="{% url 'cart_add' %}" method="post" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="add-to-cart" data-product="{{ product.id }}" {% if product.stock == 0 %}disabled{% endif %}>
+                                <img src="{% static 'images/cart_icon.png' %}" alt="Добавить в корзину">
+                            </button>
+                        </form>
                     </div>
+                    {% endfor %}
 
-                    <div class="product-info">
-                        <div class="product-top">
-                            <h3 class="product-title">{{ product.name }}</h3>
-                            <div class="product-price">{{ product.price|floatformat:0|stringformat:"s"|intcomma }} ₽</div>
-                        </div>
+                </div>
 
-                        <div class="product-bottom">
-                            <div class="product-rating">{{ product.average_rating|default:"0" }} ★</div>
-                        </div>
-                    </div>
-                </a>
+                <nav class="catalog-pagination" aria-label="Пагинация каталога">
+                    {% if page_obj and page_obj.paginator.num_pages > 1 %}
 
-                <form action="{% url 'cart_add' %}" method="post" class="add-to-cart-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="add-to-cart" data-product="{{ product.id }}" {% if product.stock == 0 %}disabled{% endif %}>
-                        <img src="{% static 'images/cart_icon.png' %}" alt="Добавить в корзину">
-                    </button>
-                </form>
+                    {% if page_obj and page_obj.has_previous %}
+                    <a class="catalog-pagination__btn" href="?page={{ page_obj.previous_page_number }}"><</a>
+                    {% else %}
+                    <span class="catalog-pagination__btn catalog-pagination__btn--disabled"><</span>
+                    {% endif %}
+
+                    {% endif %}
+
+                    {% if page_obj %}
+                        {% for page_num in page_numbers %}
+                            {% if page_num == page_obj.number %}
+                            <span class="catalog-pagination__btn catalog-pagination__btn--active" aria-current="page">{{ page_num }}</span>
+                            {% else %}
+                            <a class="catalog-pagination__btn" href="?page={{ page_num }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if page_obj and page_obj.paginator.num_pages > 1 %}
+
+                    {% if page_obj and page_obj.has_next %}
+                    <a class="catalog-pagination__btn" href="?page={{ page_obj.next_page_number }}">></a>
+                    {% else %}
+                    <span class="catalog-pagination__btn catalog-pagination__btn--disabled">></span>
+                    {% endif %}
+
+                    {% endif %}
+                </nav>
             </div>
-            {% endfor %}
-
         </div>
         {% else %}
         <p class="empty">В этой категории пока нет товаров.</p>
