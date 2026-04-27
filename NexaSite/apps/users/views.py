@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from apps.cart.services import CartService
 
 User = get_user_model()
@@ -73,3 +72,51 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return redirect("/")
+
+def account_view(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    if request.method == "POST":
+        action = request.POST.get("action")
+
+        if action == "change_password":
+            current_password = request.POST.get("current_password")
+            new_password1 = request.POST.get("new_password1")
+            new_password2 = request.POST.get("new_password2")
+
+            if not request.user.check_password(current_password):
+                messages.error(request, "Неверный текущий пароль")
+                return redirect("account")
+            if new_password1 != new_password2:
+                messages.error(request, "Новые пароли не совпадают")
+                return redirect("account")
+            if len(new_password1) < 8:
+                messages.error(request, "Пароль должен быть не менее 8 символов")
+                return redirect("account")
+
+            request.user.set_password(new_password1)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request, "Пароль успешно изменён")
+            return redirect("account")
+
+        if action == "change_email":
+            current_email = request.user.email
+            new_email = request.POST.get("new_email")
+            confirm_email = request.POST.get("confirm_email")
+
+            if new_email != confirm_email:
+                messages.error(request, "Почты не совпадают")
+                return redirect("account")
+            if new_email == current_email:
+                messages.error(request, "Это уже ваша текущая почта")
+                return redirect("account")
+            if User.objects.filter(email=new_email).exists():
+                messages.error(request, "Эта почта уже используется")
+                return redirect("account")
+
+            request.user.email = new_email
+            request.user.save()
+            messages.success(request, "Почта успешно изменена")
+            return redirect("account")
+    return render(request, "pages/account.html")
