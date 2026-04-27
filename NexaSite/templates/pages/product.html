@@ -110,7 +110,18 @@
         <div class="product-bottom">
             <div class="product-description">
                 <h2>Описание</h2>
-                <p>{{ product.description|default:"Описание отсутствует"|linebreaksbr }}</p>
+
+                <div class="desc-wrapper" id="descWrapper">
+                    <div class="desc-content" id="productDesc">
+                        <p>{{ product.description|default:"Описание отсутствует"|linebreaksbr }}</p>
+                    </div>
+
+                    {% if product.description|length > 100 %}
+                    <div class="desc-controls" id="descControls">
+                        <button type="button" id="descToggle" class="desc-toggle">Развернуть</button>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="product-specs">
@@ -146,4 +157,28 @@
 </div>
 
 <script src="{% static 'js/product-gallery.js' %}" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("descToggle");
+    const wrapper = document.getElementById("descWrapper");
+    const controls = document.getElementById("descControls");
+
+    if (!btn || !wrapper || !controls) return;
+
+    let isOpen = false;
+
+    btn.addEventListener("click", () => {
+        isOpen = !isOpen;
+        wrapper.classList.toggle("open", isOpen);
+
+        if (isOpen) {
+            btn.textContent = "Скрыть";
+            controls.classList.add("expanded");
+        } else {
+            btn.textContent = "Развернуть";
+            controls.classList.remove("expanded");
+        }
+    });
+});
+</script>
 {% endblock %}
